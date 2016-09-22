@@ -1,0 +1,50 @@
+﻿@using System.Web.Mvc.Html
+@model ItWorks.Web.Models.DocumentViewModel
+
+<form method="post">
+    <div class="row">
+        @Html.LabelFor(x => x.DocumentType)
+        @Html.EnumDropDownListFor(x => x.DocumentType)
+    </div>
+    <div class="row">
+        @Html.LabelFor(x => x.Name)
+        @Html.TextBoxFor(x => x.Name)
+        @Html.ValidationMessageFor(x => x.Name)
+    </div>
+    <div class="row">
+        @Html.LabelFor(x => x.Content)
+        @Html.TextBoxFor(x => x.Content)
+        @Html.ValidationMessageFor(x => x.Content)
+    </div>
+    <div id="numberOfCopiesRow" class="row">
+        @Html.LabelFor(x => x.NumberOfCopies)
+        @Html.TextBoxFor(x => x.NumberOfCopies)
+        @Html.ValidationMessageFor(x => x.NumberOfCopies)
+    </div>
+    <div class="row">
+        <input type="submit" value="Print" />
+    </div>
+</form>
+@if (!string.IsNullOrWhiteSpace(Model.Output))
+{
+    <div class="row multiline">
+        @Html.LabelFor(x => x.Output)
+        @Html.DisplayFor(x => x.Output)
+    </div>
+}
+
+@section scripts
+{
+    <script>
+        $(document).ready(function() {
+            $("#DocumentType").change(function() {
+                if ($("#DocumentType option:selected").text() === "QuickDocument") {
+                    $("#NumberOfCopies").val(1);
+                    $("#numberOfCopiesRow").hide();
+                } else {
+                    $("#numberOfCopiesRow").show();
+                }
+            });
+        });
+    </script>
+}
